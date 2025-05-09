@@ -1,69 +1,67 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import "./App.css";
-
+import { Moon } from "lucide-react";
+import { Sun } from "lucide-react";
+// import { LeafyGreen } from "lucide-react";
 function App() {
   const [todos, setTodos] = useState([]);
-
-  const inputValue = useRef();
+  const [inputValue, setInputValue] = useState("");
 
   const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      const inpContent = inputValue.current.value;
-      if (inpContent !== "") {
-        const newItem = { completed: false, inpContent };
-        setTodos([...todos, newItem]);
-
-        inputValue.current.value = "";
-      } else {
-        console.log("error");
-      }
-    } else {
-      return "error";
+    if (event.key === "Enter" && inputValue !== "") {
+      const newItem = { completed: false, taskName: inputValue };
+      setTodos((prev) => {
+        return [...prev, newItem];
+      });
+      setInputValue("");
     }
   };
 
   const handleItemDone = (index) => {
-    const newTodos = [...todos];
-    newTodos[index].completed = !newTodos[index].completed;
+   setTodos((prev) => {
+      console.log(prev);
+      const newTask = [...prev].map((el, i) => {
+        if (index === i) {
+          el.completed = true;
+        }
+        return el
+      });
+ 
+
+      return newTask;
+    });
   };
 
   const handleDeleteItem = (index) => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-
-    setTodos(newTodos);
+    
+    setTodos((prev)=>{
+      
+      const newTodos = [...prev];
+      newTodos.splice(index, 1);
+      return newTodos
+    });
   };
   const clearCheck = () => {
-    const newTodos = [...todos];
-    const filteredTodos = newTodos.filter((todo) => !todo.completed);
-    setTodos(filteredTodos);
+    setTodos((prev)=>{
+      
+      const newTodos = [...prev];
+      const filteredTodos = newTodos.filter((todo) => !todo.completed);
+
+      return filteredTodos
+
+    });
+
+
+
+
+
   };
 
   const deleteAll = () => {
     setTodos([]);
-    inputValue.current.value = "";
+    setInputValue('');
   };
 
-  const nightMode = () => {
-    document.querySelector(".day").style.display = "flex";
-    document.querySelector(".night").style.display = "none";
-    document.getElementById("root").style.background = "rgb(167, 167, 167)";
-    document.querySelector(".card").style.background = "black";
-
-    document.querySelector(".title").style.color = "white";
-  };
-
-  const dayMode = () => {
-    document.querySelector(".night").style.display = "flex";
-    document.querySelector(".day").style.display = "none";
-    document.getElementById("root").style.background = "aliceblue";
-
-    document.querySelector(".title").style.color = "black";
-
-    document.querySelector(".card").style.background = "white";
-    document.querySelector("title").style.color = "black";
-  };
-  console.log(todos);
 
   return (
     <>
@@ -80,32 +78,29 @@ function App() {
             id="input"
             placeholder="Enter Your Task..."
             onKeyDown={handleKeyDown}
-            ref={inputValue}
+            value={inputValue}
+            onChange={(el) => {
+              setInputValue(el.target.value);
+            }}
           />
           <div className="clearCheck" onClick={clearCheck}>
             Clear
           </div>
-          <span className="modes">
-            <div className="night" onClick={nightMode}>
-              🌙
-            </div>
-            <div className="day" onClick={dayMode}>
-              ☀️
-            </div>
-          </span>
+        
         </div>
         <ul>
-          {todos.map(({ inpContent }, index) => {
+          {todos.map(({ taskName , completed}, index) => {
             return (
-              <div className="task">
-                <li key={index}>
+              <div className="task" key={index}  >
+                <li key={taskName}>
                   <input
-                    onClick={() => handleItemDone(index)}
+                  onClick={()=>  handleItemDone(index)}
                     id="checkbox"
+                    value={completed}
                     type="checkbox"
                   />
 
-                  <label className="taskWrt"> {inpContent}</label>
+                  <label className="taskWrt">{taskName}</label>
                 </li>
                 <span
                   className="delete"

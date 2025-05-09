@@ -58,7 +58,7 @@ height: 4rem;
   border: none;
   outline: none;
   font-size: 1.5rem;
-  border: solid .1rem #506fec41;
+  border: solid .1rem #506feca2;
 box-shadow: 0 0 .2rem .01rem  #506fec41;
 }
 ul{
@@ -107,7 +107,7 @@ color: gray;
 }
 .clearCheck{
   background-color: #506eec;
-  width: 6rem;
+  width: 9rem;
   height: 4.5rem;
   display: flex;
   align-items: center;
@@ -119,27 +119,34 @@ color: gray;
 
 /* .modes */
 
-.inp-modes{
+ .inp-modes{
   display: flex;
   align-items: center;
   gap: 1rem;
   width: 100%;
 }
-.night,
 .day{
-background-color: #506eec;
-width: 4.5rem;
-height: 4.5rem;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 1.5rem;
-border-radius: .4rem;
-cursor: pointer;
+  display: none ;
+  } 
+  .night,
+  .day{
+  background-color: #506eec;
+  width: 4.5rem;
+  height: 4.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  border-radius: .4rem;
+  cursor: pointer;
+  }
+.modes {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
 }
-.day{
-  display: none;
-}
+
+
 /* checkbox */
 
 #checkbox:checked + .taskWrt{
